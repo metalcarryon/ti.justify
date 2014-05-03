@@ -54,8 +54,7 @@ def align_paragraph(paragraph, width, debug=0):
     flatten_para = ' '.join(lines)
 
     splitted = textwrap.wrap(flatten_para, width) 
-    if debug:
-        #print 'textwrap:\n%s\n' % '\n'.join(splitted)
+
 
     wrapped = list()
     while len(splitted) > 0:
@@ -73,8 +72,22 @@ def align_paragraph(paragraph, width, debug=0):
         string_output.write('\n'.join(wrapped))
         string_output.close()
 
+        javascript = open("justify.js","w")
+
+        generate = createLabel('\n'.join(wrapped))
+        javascript.write(generate)
+        javascript.close()
+
     return wrapped
 
+def createLabel(label):
+
+    var = "var label = Ti.UI.createLabel({\n"
+    text = "\ttext: "
+    comma = ",\n"
+    rest = "\ttextAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,\n\ttop: 30,\n\twidth: Ti.UI.SIZE,\n\theight: Ti.UI.SIZE\n});"
+      
+    return (var + text + label + comma + rest)
 
 if __name__ == '__main__':
 
